@@ -15,7 +15,7 @@ export class ListBicyclesPage implements OnInit {
 
   ngOnInit() { }
 
-  ionViewDidEnter(){
+  ionViewDidEnter() {
     this.getAllBicycles();
   }
 
@@ -25,9 +25,8 @@ export class ListBicyclesPage implements OnInit {
       this.bicycles = bikes;
     })
   }
-
-  // DECOMMENT:
-  // addBicycle(){
-  //   this.router.navigateByUrl("/add-bicycle");
-  // }
+  
+  addBicycle() {
+    this.router.navigateByUrl("/add-bicycle");
+  }
 }

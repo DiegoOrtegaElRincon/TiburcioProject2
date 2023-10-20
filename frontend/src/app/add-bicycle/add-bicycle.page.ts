@@ -39,41 +39,38 @@ export class AddBicyclePage implements OnInit {
   }
 
   takePhoto() {
-    // DECOMMENT:
-    // this.photoService.takePhoto().then(data => {
-    //   this.capturedPhoto = data.webPath;
-    // });
+    this.photoService.takePhoto().then(data => {
+      this.capturedPhoto = data.webPath;
+    });
   }
 
   pickImage() {
-    // DECOMMENT:
-    // this.photoService.pickImage().then(data => {
-    //   this.capturedPhoto = data.webPath;
-    // });
+
+    this.photoService.pickImage().then(data => {
+      this.capturedPhoto = data.webPath;
+    });
   }
 
   discardImage() {
-    // DECOMMENT:
-    // this.capturedPhoto = null;
+    this.capturedPhoto = null;
   }
 
   async submitForm() {
-    // DECOMMENT:
-    // this.isSubmitted = true;
-    // if (!this.bicycleForm.valid) {
-    //   console.log('Please provide all the required values!')
-    //   return false;
-    // } else {
-    //   let blob = null;
-    //   if (this.capturedPhoto != "") {
-    //     const response = await fetch(this.capturedPhoto);
-    //     blob = await response.blob();
-    //   }
+    this.isSubmitted = true;
+    if (!this.bicycleForm.valid) {
+      console.log('Please provide all the required values!')
+      return false;
+    } else {
+      let blob = null;
+      if (this.capturedPhoto != "") {
+        const response = await fetch(this.capturedPhoto);
+        blob = await response.blob();
+      }
 
-    //   this.bicycleService.createBicycle(this.bicycleForm.value, blob).subscribe(data => {
-    //     console.log("Photo sent!");
-    //     this.router.navigateByUrl("/list-bicycles");
-    //   })
-    // }
+      this.bicycleService.createBicycle(this.bicycleForm.value, blob).subscribe(data => {
+        console.log("Photo sent!");
+        this.router.navigateByUrl("/list-bicycles");
+      })
+    }
   }
 }
