@@ -14,7 +14,11 @@ const routes: Routes = [
   {
     path: 'list-bicycles',
     loadChildren: () => import('./list-bicycles/list-bicycles.module').then( m => m.ListBicyclesPageModule)
+  },  {
+    path: 'update-bicycle',
+    loadChildren: () => import('./update-bicycle/update-bicycle.module').then( m => m.UpdateBicyclePageModule)
   },
+
 ];
 
 @NgModule({

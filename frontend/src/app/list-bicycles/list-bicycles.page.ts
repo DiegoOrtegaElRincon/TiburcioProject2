@@ -26,12 +26,13 @@ export class ListBicyclesPage implements OnInit {
     })
   }
 
-  getBicyclePicture() {
-
-  }
-
   addBicycle() {
     this.router.navigateByUrl("/add-bicycle");
+  }
+
+  updateBicycle(id: number) {
+    this.bicycleService.currentBicycleId = id;
+    this.router.navigate(["/update-bicycle", id]);
   }
 
   deleteBicycle(id: number) {

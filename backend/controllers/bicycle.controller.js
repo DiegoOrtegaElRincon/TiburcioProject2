@@ -11,14 +11,12 @@ exports.create = (req, res) => {
       message: "Content cannot be empty!"
     });
   }
-
   // Create a Bicycle
   const bicycle = {
     brand: req.body.brand,
     model: req.body.model,
     filename: req.file ? req.file.filename : ""
   }
-
   // Save Bicycle in the database
   Bicycle.create(bicycle).then(data => {
     res.send(data);
@@ -63,7 +61,19 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
   const id = req.params.id;
 
-  Bicycle.update(req.body, {
+  if (!req.body.brand || !req.body.model) {
+    res.status(400).send({
+      message: "Content cannot be empty!"
+    });
+  }
+  // Create a Bicycle
+  const bicycle = {
+    brand: req.body.brand,
+    model: req.body.model,
+    filename: req.file ? req.file.filename : ""
+  }
+
+  Bicycle.update(bicycle, {
     where: { id: id }
   }).then(num => {
     if (num == 1) {
