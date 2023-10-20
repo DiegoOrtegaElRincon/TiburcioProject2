@@ -21,18 +21,18 @@ app.use(express.urlencoded({ extended: true }));
 const db = require("./models");
 
 // normal use. Doesn't delete the database data
-// db.sequelize.sync().then(() => {
-//   console.log("Synced db.");
-// }).catch((err) => {
-//   console.log("Failed to sync db: " + err.message);
-// });
+db.sequelize.sync().then(() => {
+  console.log("Synced db.");
+}).catch((err) => {
+  console.log("Failed to sync db: " + err.message);
+});
 
 
 // In development, you may need to drop existing tables and re-sync database
 // Use this just for development
-db.sequelize.sync({ force: true }).then(() => {
-  console.log("Drop and re-sync db.");
-});
+// db.sequelize.sync({ force: true }).then(() => {
+//   console.log("Drop and re-sync db.");
+// });
 
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to bicycle application." });

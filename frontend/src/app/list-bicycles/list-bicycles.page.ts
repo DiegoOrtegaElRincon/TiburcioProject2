@@ -25,8 +25,19 @@ export class ListBicyclesPage implements OnInit {
       this.bicycles = bikes;
     })
   }
-  
+
+  getBicyclePicture() {
+
+  }
+
   addBicycle() {
     this.router.navigateByUrl("/add-bicycle");
   }
+
+  deleteBicycle(id: number) {
+    this.bicycleService.deleteBicycle(id).subscribe(() => {
+      this.getAllBicycles()
+    })
+  }
 }
+

@@ -14,9 +14,10 @@
         <h1>{{b.brand}}</h1>
         <p>{{b.model}}</p>
       </ion-label>
+      <ion-button (click)="deleteBicycle(b.id)">Delete</ion-button>
+      <ion-button (click)="updateBicycle(b.id)">Update</ion-button>
     </ion-item>
   </ion-list>
-
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="addBicycle()">

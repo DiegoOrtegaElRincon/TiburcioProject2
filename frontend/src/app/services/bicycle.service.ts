@@ -10,16 +10,20 @@ export class BicycleService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getBicycles(){
+  getBicycles() {
     return this.httpClient.get(this.endPoint);
   }
 
-  createBicycle(bicycle, blob){
+  createBicycle(bicycle, blob) {
     let formData = new FormData();
     formData.append("brand", bicycle.brand);
     formData.append("model", bicycle.model);
     formData.append("file", blob);
 
     return this.httpClient.post(this.endPoint, formData);
+  }
+
+  deleteBicycle(id: number) {
+    return this.httpClient.delete(this.endPoint + `/${id}`);
   }
 }

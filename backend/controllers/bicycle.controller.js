@@ -1,6 +1,7 @@
 const db = require("../models");
 const Bicycle = db.bicycles;
 const Op = db.Sequelize.Op;
+const path = require('path')
 
 // Create and Save a new Bicycle
 exports.create = (req, res) => {
@@ -84,22 +85,41 @@ exports.update = (req, res) => {
 // Delete a Bicycle with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
+  const fs = require("fs");
 
-  Bicycle.destroy({
-    where: { id: id }
-  }).then(num => {
-    if (num == 1) {
-      res.send({
-        message: "Bicycle was deleted successfully!"
+  Bicycle.findByPk(id).then(bicycle => {
+
+    const img = bicycle.filename
+
+    Bicycle.destroy({
+      where: { id: id }
+    }).then(num => {
+      if (num == 1) {
+        if (img) {
+          const directoryPath = path.join(__dirname, '../public/images', img);
+          fs.unlink(directoryPath, (err) => {
+            if (err) {
+              res.status(500).send({
+                message: "Could not delete the file. " + err,
+              });
+            }
+            res.send({
+              message: "File is deleted.",
+            });
+          });
+        }
+
+      } else {
+        res.send({
+          message: `Cannot delete Bicyle with id=${id}. Maybe Bicycle was not found!`
+        });
+      }
+    }).catch(err => {
+      res.status(500).send({
+        message: "Could not delete Bicycle with id=" + id
       });
-    } else {
-      res.send({
-        message: `Cannot delete Bicyle with id=${id}. Maybe Bicycle was not found!`
-      });
-    }
-  }).catch(err => {
-    res.status(500).send({
-      message: "Could not delete Bicycle with id=" + id
     });
-  });
+
+
+  })
 };
