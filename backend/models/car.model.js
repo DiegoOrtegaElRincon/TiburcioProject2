@@ -1,9 +1,12 @@
 module.exports = (sequelize, Sequelize) => {
-  const Bicycle = sequelize.define("bicycle", {
+  const Car = sequelize.define("Car", {
     brand: {
       type: Sequelize.STRING
     },
     model: {
+      type: Sequelize.STRING
+    },
+    year: {
       type: Sequelize.STRING
     },
     filename: {
@@ -11,5 +14,5 @@ module.exports = (sequelize, Sequelize) => {
     }
   });
 
-  return Bicycle;
+  return Car;
 }

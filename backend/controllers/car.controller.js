@@ -1,9 +1,9 @@
 const db = require("../models");
-const Bicycle = db.bicycles;
+const Car = db.car;
 const Op = db.Sequelize.Op;
 const path = require('path')
 
-// Create and Save a new Bicycle
+// Create and Save a new Car
 exports.create = (req, res) => {
   // Validate request
   if (!req.body.brand || !req.body.model) {
@@ -11,53 +11,54 @@ exports.create = (req, res) => {
       message: "Content cannot be empty!"
     });
   }
-  // Create a Bicycle
-  const bicycle = {
+  // Create a Car
+  const car = {
     brand: req.body.brand,
     model: req.body.model,
+    year: req.body.year,
     filename: req.file ? req.file.filename : ""
   }
-  // Save Bicycle in the database
-  Bicycle.create(bicycle).then(data => {
+  // Save Car in the database
+  Car.create(car).then(data => {
     res.send(data);
   }).catch(err => {
     res.status(500).send({
-      message: err.message || "Some error occurred while creating the bicycle"
+      message: err.message || "Some error occurred while creating the car"
     })
   });
 };
 
-// Retrieve all Bicycles from the database.
+// Retrieve all Car from the database.
 exports.findAll = (req, res) => {
-  Bicycle.findAll().then(data => {
+  Car.findAll().then(data => {
     res.send(data);
   }).catch(err => {
     res.status(500).send({
-      message: err.message || "Some error occurred while retrieving all Bicycles"
+      message: err.message || "Some error occurred while retrieving all Cars"
     })
   })
 };
 
-// Find a single Bicycle with an id
+// Find a single Car with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
-  Bicycle.findByPk(id).then(data => {
+  Car.findByPk(id).then(data => {
     if (data) {
       res.send(data);
     } else {
       res.status(404).send({
-        message: `Cannot find bicycle with id=${id}.`
+        message: `Cannot find car with id=${id}.`
       });
     }
   }).catch(err => {
     res.status(500).send({
-      message: "Error retrieving bicycle with id=" + id
+      message: "Error retrieving car with id=" + id
     });
   });
 }
 
-// Update a Bicycle by the id in the request
+// Update a Car by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
 
@@ -66,42 +67,43 @@ exports.update = (req, res) => {
       message: "Content cannot be empty!"
     });
   }
-  // Create a Bicycle
-  const bicycle = {
+  // Create a Car
+  const car = {
     brand: req.body.brand,
     model: req.body.model,
+    year: req.body.year,
     filename: req.file ? req.file.filename : ""
   }
 
-  Bicycle.update(bicycle, {
+  Car.update(car, {
     where: { id: id }
   }).then(num => {
     if (num == 1) {
       res.send({
-        message: "Bicycle was updated successfully."
+        message: "Car was updated successfully."
       });
     } else {
       res.send({
-        message: `Cannot update Bicycle with id=${id}. Maybe Bicycle was not found or req.body is empty!`
+        message: `Cannot update Car with id=${id}. Maybe Car was not found or req.body is empty!`
       });
     }
   }).catch(err => {
     res.status(500).send({
-      message: "Error updating Bicycle with id=" + id
+      message: "Error updating Car with id=" + id
     });
   });
 };
 
-// Delete a Bicycle with the specified id in the request
+// Delete a Car with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
   const fs = require("fs");
 
-  Bicycle.findByPk(id).then(bicycle => {
+  Car.findByPk(id).then(car => {
 
-    const img = bicycle.filename
+    const img = car.filename
 
-    Bicycle.destroy({
+    Car.destroy({
       where: { id: id }
     }).then(num => {
       if (num == 1) {
@@ -118,18 +120,15 @@ exports.delete = (req, res) => {
             });
           });
         }
-
       } else {
         res.send({
-          message: `Cannot delete Bicyle with id=${id}. Maybe Bicycle was not found!`
+          message: `Cannot delete Car with id=${id}. Maybe Car was not found!`
         });
       }
     }).catch(err => {
       res.status(500).send({
-        message: "Could not delete Bicycle with id=" + id
+        message: "Could not delete Car with id=" + id
       });
     });
-
-
   })
 };

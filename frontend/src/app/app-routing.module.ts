@@ -18,6 +18,14 @@ const routes: Routes = [
     path: 'update-bicycle',
     loadChildren: () => import('./update-bicycle/update-bicycle.module').then( m => m.UpdateBicyclePageModule)
   },
+  {
+    path: 'add-car',
+    loadChildren: () => import('./add-car/add-car.module').then( m => m.AddCarPageModule)
+  },
+  {
+    path: 'car-list',
+    loadChildren: () => import('./car-list/car-list.module').then( m => m.CarListPageModule)
+  },
 
 ];
 

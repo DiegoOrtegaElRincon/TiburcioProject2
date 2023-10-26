@@ -35,10 +35,10 @@ db.sequelize.sync().then(() => {
 // });
 
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bicycle application." });
+  res.json({ message: "Welcome to car application." });
 });
 
-require("./routes/bicycle.routes")(app);
+require("./routes/car.routes")(app);
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
