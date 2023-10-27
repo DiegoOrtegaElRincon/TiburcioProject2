@@ -4,19 +4,8 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'list-bicycles',
+    redirectTo: 'car-list',
     pathMatch: 'full'
-  },
-  {
-    path: 'add-bicycle',
-    loadChildren: () => import('./add-bicycle/add-bicycle.module').then( m => m.AddBicyclePageModule)
-  },
-  {
-    path: 'list-bicycles',
-    loadChildren: () => import('./list-bicycles/list-bicycles.module').then( m => m.ListBicyclesPageModule)
-  },  {
-    path: 'update-bicycle',
-    loadChildren: () => import('./update-bicycle/update-bicycle.module').then( m => m.UpdateBicyclePageModule)
   },
   {
     path: 'add-car',
