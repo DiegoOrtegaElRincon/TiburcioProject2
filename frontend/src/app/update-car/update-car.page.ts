@@ -1,42 +1,61 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PhotoService } from '../services/photo.service';
-import { Router } from '@angular/router';
 import { CarService } from '../services/car.service';
+import { PhotoService } from '../services/photo.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-add-car',
-  templateUrl: './add-car.page.html',
-  styleUrls: ['./add-car.page.scss'],
+  selector: 'app-update-car',
+  templateUrl: './update-car.page.html',
+  styleUrls: ['./update-car.page.scss'],
 })
-export class AddCarPage implements OnInit {
+export class UpdateCarPage implements OnInit {
 
-  carForm: FormGroup;
+  carUpdateForm: FormGroup;
+  car: any;
   isSubmitted: boolean = false;
   capturedPhoto: string = "";
 
   constructor(public formBuilder: FormBuilder,
+    private activatedRoute: ActivatedRoute,
     private carService: CarService,
     private photoService: PhotoService,
     private router: Router
   ) { }
 
   ionViewWillEnter() {
-    this.carForm.reset();
+    this.carUpdateForm.reset();
     this.isSubmitted = false;
     this.capturedPhoto = "";
   }
 
   ngOnInit() {
-    this.carForm = this.formBuilder.group({
+    this.carUpdateForm = this.formBuilder.group({
       brand: ['', [Validators.required, Validators.minLength(3)]],
       model: ['', [Validators.required, Validators.minLength(3)]],
-      year: ['', [Validators.required, Validators.pattern(/^(19[0-9][0-9]|20[0-2][0-2])$/)]]
-    })
+      year: ['', [Validators.required, Validators.min(1900)]]
+    });
+
+    const id = this.carService.currentCarId;
+
+    this.carService.getCarById(id).subscribe(
+      (carData: any) => {
+        this.car = carData;
+        this.carUpdateForm.setValue({
+          brand: carData.brand,
+          model: carData.model,
+          year: carData.year
+        });
+      },
+      (error) => {
+        console.error('Error al cargar los datos del carro', error);
+        // Maneja el error apropiadamente, por ejemplo, mostrando un mensaje al usuario.
+      }
+    );
   }
 
   get errorControl() {
-    return this.carForm.controls;
+    return this.carUpdateForm.controls;
   }
 
   takePhoto() {
@@ -46,6 +65,7 @@ export class AddCarPage implements OnInit {
   }
 
   pickImage() {
+
     this.photoService.pickImage().then(data => {
       this.capturedPhoto = data.webPath;
     });
@@ -57,7 +77,7 @@ export class AddCarPage implements OnInit {
 
   async submitForm() {
     this.isSubmitted = true;
-    if (!this.carForm.valid) {
+    if (!this.carUpdateForm.valid) {
       console.log('Please provide all the required values!')
       return false;
     } else {
@@ -66,10 +86,12 @@ export class AddCarPage implements OnInit {
         const response = await fetch(this.capturedPhoto);
         blob = await response.blob();
       }
-      this.carService.createCar(this.carForm.value, blob).subscribe(data => {
+
+      this.carService.updateCar(this.carService.currentCarId, this.carUpdateForm.value, blob).subscribe(data => {
         console.log("Photo sent!");
         this.router.navigateByUrl("/car-list");
       })
     }
   }
+
 }

@@ -20,6 +20,10 @@ export class CarService {
     return this.currentCarId;
   }
 
+  getCarById(id: number) {
+    return this.httpClient.get(`${this.endPoint}/${id}`);
+  }
+
   getCars() {
     return this.httpClient.get(this.endPoint);
   }
@@ -45,6 +49,6 @@ export class CarService {
     formData.append("year", car.year);
     formData.append("file", blob);
 
-    return this.httpClient.put(this.endPoint+ `/${id}`, formData);
+    return this.httpClient.put(this.endPoint + `/${id}`, formData);
   }
 }

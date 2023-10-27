@@ -32,13 +32,14 @@ export class CarListPage implements OnInit {
 
   updateCar(id: number) {
     this.CarService.currentCarId = id;
-    this.router.navigate(["/update-car", id]);
+    this.router.navigate(["/update-car"]);
   }
 
   deleteCar(id: number) {
     this.CarService.deleteCar(id).subscribe(() => {
       this.getAllCars()
     })
+    this.getAllCars()
   }
 }
 
